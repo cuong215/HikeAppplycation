@@ -1,14 +1,31 @@
 import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
-import { useState } from 'react';
-import { searchHikesByName } from '../db/database';
+import { useState, useEffect } from 'react';
+import { searchHikesByName, getAllHikes } from '../db/database';
 
 export default function SearchScreen({ navigation }) {
   const [q, setQ] = useState("");
   const [res, setRes] = useState([]);
 
+  // Debugging: Log all data to console when screen loads
+  useEffect(() => {
+     const checkData = async () => {
+         const allHikes = await getAllHikes();
+         console.log("==== ALL DATA IN DB ====");
+         console.log(allHikes);
+         console.log("========================");
+     }
+     checkData();
+  }, []);
+
   const search = async () => {
-    const data = await searchHikesByName(q);
-    setRes(data);
+    try {
+        console.log("Searching for keyword:", q);
+        const data = await searchHikesByName(q);
+        console.log("Results found:", data);
+        setRes(data);
+    } catch (error) {
+        console.error("Search Error:", error);
+    }
   };
 
   return (

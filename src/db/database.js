@@ -105,10 +105,26 @@ export async function deleteHike(id) {
 
 export async function searchHikesByName(keyword) {
   if (!db) await initDB();
-  const searchTerm = keyword || ""; 
+  const searchTerm = keyword || "";
+
+  console.log("Đang tìm kiếm mở rộng:", searchTerm);
+
+  // Thêm các điều kiện OR để tìm trong Description, Difficulty, TrailType
   return await db.getAllAsync(
-    "SELECT * FROM hikes WHERE name LIKE ? ORDER BY date DESC;",
-    [`%${searchTerm}%`]
+    `SELECT * FROM hikes 
+     WHERE name LIKE ? 
+        OR location LIKE ? 
+        OR description LIKE ? 
+        OR difficulty LIKE ? 
+        OR trailType LIKE ?
+     ORDER BY date DESC`,
+    [
+      `%${searchTerm}%`, // Cho name
+      `%${searchTerm}%`, // Cho location
+      `%${searchTerm}%`, // Cho description
+      `%${searchTerm}%`, // Cho difficulty
+      `%${searchTerm}%`  // Cho trailType
+    ]
   );
 }
 
@@ -162,7 +178,6 @@ export async function deleteObservation(id) {
   if (!db) await initDB();
   await db.runAsync("DELETE FROM observations WHERE id=?;", [id]);
 }
-
 
 export async function deleteAllData() {
     if (!db) await initDB();
