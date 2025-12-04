@@ -29,8 +29,6 @@ export default function HikeDetailScreen({ route, navigation }) {
         Length: `${hike.length} km`,
         Difficulty: hike.difficulty,
         Description: hike.description,
-        Weather: hike.weatherForecast,
-        "Max Group": hike.maxGroupSize
       }).map(([k, v]) => (
         <Text style={styles.item} key={k}>{k}: {v}</Text>
       ))}

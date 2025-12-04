@@ -10,9 +10,7 @@ export default function SearchScreen({ navigation }) {
   useEffect(() => {
      const checkData = async () => {
          const allHikes = await getAllHikes();
-         console.log("==== ALL DATA IN DB ====");
          console.log(allHikes);
-         console.log("========================");
      }
      checkData();
   }, []);

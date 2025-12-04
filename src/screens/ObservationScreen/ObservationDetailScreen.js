@@ -1,5 +1,5 @@
-import { View, Text, Button, StyleSheet } from "react-native";
-import { getObservationById } from "../../db/database";
+import { View, Text, Button, StyleSheet, Alert } from "react-native";
+import { getObservationById, deleteObservation } from "../../db/database";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -17,6 +17,27 @@ export default function ObservationDetailScreen({ route, navigation }) {
     if (isFocused) load();
   }, [isFocused]);
 
+  const showDeleteAlert = () => {
+    Alert.alert(
+      "Delete Observation",
+      "Are you sure you want to delete this observation?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            await deleteObservation(obsId);
+            navigation.goBack();
+          },
+        },
+      ]
+    );
+  };
+
   if (!obs) return <Text>Loading...</Text>;
 
   return (
@@ -32,6 +53,14 @@ export default function ObservationDetailScreen({ route, navigation }) {
             navigation.navigate("ObservationForm", { obsId, hikeId })
           }
         />
+        
+        <View style={{ marginTop: 10 }}> 
+            <Button
+              title="Delete Observation"
+              color="red" 
+              onPress={showDeleteAlert} 
+            />
+        </View>
       </View>
     </View>
   );

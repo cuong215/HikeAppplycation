@@ -14,8 +14,6 @@ export default function HikeFormScreen({ route, navigation }) {
   const [parking, setParking] = useState(editing?.parking || "Yes");
   const [trailType, setTrailType] = useState(editing?.trailType || "");
   const [description, setDescription] = useState(editing?.description || "");
-  const [weather, setWeather] = useState(editing?.weatherForecast || "");
-  const [maxGroupSize, setMaxGroupSize] = useState(editing?.maxGroupSize?.toString() || "");
 
   const [showPicker, setShowPicker] = useState(false);
 
@@ -36,8 +34,6 @@ export default function HikeFormScreen({ route, navigation }) {
     setParking("Yes");
     setTrailType("");
     setDescription("");
-    setWeather("");
-    setMaxGroupSize("");
   };
 
   const preview = () => {
@@ -51,8 +47,6 @@ export default function HikeFormScreen({ route, navigation }) {
       parking,
       trailType,
       description,
-      weatherForecast: weather,
-      maxGroupSize: Number(maxGroupSize)
     };
 
     navigation.navigate("Preview", { data, editing });
@@ -156,19 +150,6 @@ export default function HikeFormScreen({ route, navigation }) {
           onChangeText={setDescription}
           placeholder="Notes, special views, tips..."
           multiline
-        />
-
-        {/* WEATHER */}
-        <Text style={styles.label}>Weather Forecast</Text>
-        <TextInput style={styles.input} value={weather} onChangeText={setWeather} />
-
-        {/* MAX GROUP */}
-        <Text style={styles.label}>Max Group Size</Text>
-        <TextInput
-          style={styles.input}
-          value={maxGroupSize}
-          keyboardType="numeric"
-          onChangeText={setMaxGroupSize}
         />
 
         {/* BUTTONS */}
